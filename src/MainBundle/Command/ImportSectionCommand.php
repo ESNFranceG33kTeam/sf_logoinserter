@@ -12,7 +12,7 @@
 namespace MainBundle\Command;
 
 use Doctrine\ORM\EntityManager;
-use Esn\EsnBundle\Entity\Section;
+use MainBundle\Entity\Section;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -71,7 +71,7 @@ EOT
                 $code = $section_xml->getElementsByTagName('sc')->item(0)->nodeValue;
 
                 /** @var Section $section_db */
-                $section_db = $em->getRepository('EsnEsnBundle:Section')->findOneBy(array("code" => $code));
+                $section_db = $em->getRepository('MainBundle:Section')->findOneBy(array("code" => $code));
 
                 $section = ($section_db) ? $section_db : new Section();
 
