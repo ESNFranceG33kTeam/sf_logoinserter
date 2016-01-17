@@ -1,4 +1,11 @@
 services:
-#    user.example:
-#        class: UserBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    login_listener:
+        class: UserBundle\EventListener\LoginListener
+        arguments:
+                - "@router"
+                - "@security.context"
+        tags:
+            -
+                  name: kernel.event_listener
+                  event: kernel.request
+                  method: onKernelRequest

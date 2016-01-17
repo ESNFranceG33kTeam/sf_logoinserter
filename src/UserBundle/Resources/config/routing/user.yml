@@ -1,0 +1,30 @@
+user:
+    path:     /
+    defaults: { _controller: "UserBundle:User:index" }
+
+user_show:
+    path:     /{id}/show
+    defaults: { _controller: "UserBundle:User:show" }
+
+user_new:
+    path:     /new
+    defaults: { _controller: "UserBundle:User:new" }
+
+user_create:
+    path:     /create
+    defaults: { _controller: "UserBundle:User:create" }
+    methods:  POST
+
+user_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "UserBundle:User:edit" }
+
+user_update:
+    path:     /{id}/update
+    defaults: { _controller: "UserBundle:User:update" }
+    methods:  [POST, PUT]
+
+user_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "UserBundle:User:delete" }
+    methods:  [POST, DELETE]

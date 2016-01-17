@@ -3,6 +3,7 @@
 namespace MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use phpCAS;
 
 class DefaultController extends Controller
 {

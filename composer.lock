@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "29f9ee4cf36a40b772d3c12dca7b2115",
-    "content-hash": "568af2a61ea98c5ff6bebdc2b6bf60f3",
+    "hash": "323fbc32c6c3edb8f817065cb4899ce8",
+    "content-hash": "324349256676007a0f243a54ef758727",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -909,7 +909,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ESNFranceG33kTeam/ESNBundle/zipball/501302c3d5c6564a695a7bf01a93600099e8260d",
+                "url": "https://api.github.com/repos/ESNFranceG33kTeam/ESNBundle/zipball/419bf73a9545f724f9e4240274c36536a055f325",
                 "reference": "c39ef2554aa915beb5e4b6d502fa16d7a36bcbdb",
                 "shasum": ""
             },
@@ -1103,6 +1103,59 @@
                 "password"
             ],
             "time": "2014-11-20 16:49:30"
+        },
+        {
+            "name": "jasig/phpcas",
+            "version": "1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jasig/phpCAS.git",
+                "reference": "b6f5d484735d3b0e80b068a87bd1eabac04b2cbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jasig/phpCAS/zipball/b6f5d484735d3b0e80b068a87bd1eabac04b2cbe",
+                "reference": "b6f5d484735d3b0e80b068a87bd1eabac04b2cbe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7.10"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "source/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joachim Fritschi",
+                    "homepage": "https://wiki.jasig.org/display/~fritschi"
+                },
+                {
+                    "name": "Adam Franco",
+                    "homepage": "https://wiki.jasig.org/display/~adamfranco"
+                }
+            ],
+            "description": "Provides a simple API for authenticating users against a CAS server",
+            "homepage": "https://wiki.jasig.org/display/CASC/phpCAS",
+            "keywords": [
+                "cas",
+                "jasig"
+            ],
+            "time": "2014-07-24 20:29:29"
         },
         {
             "name": "jdorn/sql-formatter",

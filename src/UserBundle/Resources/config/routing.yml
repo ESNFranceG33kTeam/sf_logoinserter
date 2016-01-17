@@ -1,2 +1,18 @@
+user_user:
+    resource: "@UserBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
+login:
+    path:     /login
+    defaults: { _controller: UserBundle:Login:login }
+
+login_check:
+    path:     /login_check
+    defaults: { _controller: UserBundle:Login:check }
+
+logout:
+    path:     /logout
+    defaults: { _controller: UserBundle:Login:logout }
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

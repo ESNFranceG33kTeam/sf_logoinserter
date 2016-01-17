@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use \Esn\EsnBundle\Entity\Section as BaseSection;
 
@@ -23,6 +24,17 @@ class Section extends BaseSection
     protected $id;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Logo")
+     */
+    protected $logos;
+
+    public function __construct(){
+        $this->logos = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -30,6 +42,22 @@ class Section extends BaseSection
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLogos()
+    {
+        return $this->logos;
+    }
+
+    /**
+     * @param ArrayCollection $logos
+     */
+    public function setLogos($logos)
+    {
+        $this->logos = $logos;
     }
 }
 
