@@ -1,3 +1,7 @@
-main_homepage:
+homepage:
     path:     /
-    defaults: { _controller: MainBundle:Default:index }
+    defaults: { _controller: MainBundle:Logo:index }
+
+upload_logo:
+    path:     /upload_logo
+    defaults: { _controller: MainBundle:Logo:upload }
