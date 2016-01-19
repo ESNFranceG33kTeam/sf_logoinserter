@@ -5,3 +5,15 @@ homepage:
 upload_logo:
     path:     /upload_logo
     defaults: { _controller: MainBundle:Logo:upload }
+
+slider:
+    path:     /upload/slider/logo/{logo_id}
+    defaults: { _controller: MainBundle:DownloadSession:slider }
+
+position:
+    path:     /upload/position/logo/{logo_id}
+    defaults: { _controller: MainBundle:DownloadSession:position }
+
+uploadbox:
+    path:     /upload/uploadbox/logo/{logo_id}/width/{width}/position/{position}
+    defaults: { _controller: MainBundle:DownloadSession:uploadbox }

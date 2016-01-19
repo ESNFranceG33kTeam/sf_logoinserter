@@ -1,8 +1,10 @@
 <?php
 namespace UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Esn\EsnBundle\Entity\GalaxyUser;
+use MainBundle\Entity\DownloadSession;
 use MainBundle\Entity\Section;
 
 /**
@@ -26,6 +28,23 @@ class User extends GalaxyUser
     protected $section;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="MainBundle\Entity\DownloadSession", mappedBy="owner")
+     */
+    protected $downloadedSessions;
+
+    /**
+     * @param $galaxyUsername
+     * @param $attributes
+     */
+    public function __construct($galaxyUsername, $attributes){
+        parent::__construct($galaxyUsername, $attributes);
+
+        $this->downloadSessions = new ArrayCollection();
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -47,5 +66,36 @@ class User extends GalaxyUser
     public function setSection($section)
     {
         $this->section = $section;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDownloadedSessions(){
+        return $this->getDownloadedSessions();
+    }
+
+    /**
+     * @param DownloadSession $downloadSession
+     *
+     * @return $this
+     */
+    public function addDownloadedSession(DownloadSession $downloadSession){
+        $this->downloadSessions->add($downloadSession);
+
+        $downloadSession->setOwner($this);
+
+        return $this;
+    }
+
+    /**
+     * @param DownloadSession $downloadSession
+     *
+     * @return $this
+     */
+    public function removeDownloadedSession(DownloadSession $downloadSession){
+        $this->downloadSessions->removeElement($downloadSession);
+
+        return $this;
     }
 }

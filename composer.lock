@@ -905,12 +905,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ESNFranceG33kTeam/ESNBundle.git",
-                "reference": "aa98aef6e8b37fbaa1703f90fc82e461ca4ec794"
+                "reference": "2a39ba8e5b5ecd87ae572a8fc72be99afbbc136a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ESNFranceG33kTeam/ESNBundle/zipball/aa98aef6e8b37fbaa1703f90fc82e461ca4ec794",
-                "reference": "aa98aef6e8b37fbaa1703f90fc82e461ca4ec794",
+                "url": "https://api.github.com/repos/ESNFranceG33kTeam/ESNBundle/zipball/2a39ba8e5b5ecd87ae572a8fc72be99afbbc136a",
+                "reference": "2a39ba8e5b5ecd87ae572a8fc72be99afbbc136a",
                 "shasum": ""
             },
             "require": {
@@ -945,7 +945,7 @@
                 "esn",
                 "sections"
             ],
-            "time": "2016-01-18 12:58:11"
+            "time": "2016-01-18 17:19:31"
         },
         {
             "name": "friendsofsymfony/user-bundle",

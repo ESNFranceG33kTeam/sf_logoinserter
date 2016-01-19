@@ -3,15 +3,20 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Logo
  *
  * @ORM\Table(name="logo")
  * @ORM\Entity(repositoryClass="MainBundle\Repository\LogoRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Logo
 {
+    public static $AUTHORIZED_MIME_TYPES = array('image/jpeg', 'image/png', 'image/jpg');
+
     /**
      * @var int
      *
@@ -29,6 +34,14 @@ class Logo
     private $path;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     */
+    public $name;
+
+    /**
+     * How many times this logo has been downloaded
+     *
      * @var int
      *
      * @ORM\Column(name="downloaded", type="integer")
@@ -55,6 +68,16 @@ class Logo
      * @ORM\Column(name="updatedAt", type="datetime")
      */
     private $updatedAt;
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $file;
+
+    /**
+     * @var Section
+     */
+    private $section;
 
     /**
      * Constructor
@@ -189,6 +212,146 @@ class Logo
     public function setPublic($public)
     {
         $this->public = $public;
+    }
+
+    /**
+     * Sets file.
+     *
+     * @param UploadedFile $file
+     */
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function upload()
+    {
+        // the file property can be empty if the field is not required
+        if (null === $this->getFile()) {
+            return;
+        }
+
+        // use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        $path = ($this->isPublic()) ? 'public' : 'sections' . '/' . strtolower($this->getSection()->getCode());
+
+        if (!is_dir($this->getUploadRootDir(). '/' .$path)){
+            if (!mkdir($this->getUploadRootDir(). '/' .$path)){
+                throw new \Exception('Create dir exception');
+            }
+        }
+
+        $filename = sha1(uniqid(mt_rand(), true)).'.'.$this->getFile()->guessExtension();
+
+        // move takes the target directory and then the
+        // target filename to move to
+        $this->getFile()->move(
+            $this->getUploadRootDir(). '/' .$path,
+            $filename
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->path = $path . '/' . $filename;
+
+        // clean up the file property as you won't need it anymore
+        $this->file = null;
+    }
+
+    public function getAbsolutePath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadRootDir().'/'.$this->path;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->path
+            ? null
+            : $this->getUploadDir().'/'.$this->path;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid(){
+        return in_array($this->getFile()->getClientMimeType(), $this::$AUTHORIZED_MIME_TYPES);
+    }
+
+    /**
+     * @return Section
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * @param Section $section
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSize(){
+        return getimagesize($this->getAbsolutePath());
+    }
+
+    public function getWidth(){
+        return $this->getSize()[0];
+    }
+
+    public function getHeight(){
+        return $this->getSize()[1];
+    }
+
+    public function __toString(){
+        return $this->getName();
     }
 }
 

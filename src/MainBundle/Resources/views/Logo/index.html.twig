@@ -1,5 +1,56 @@
 {% extends 'MainBundle::layout.html.twig' %}
 
 {% block content %}
-Logo page
+    <div id="div_form">
+        <!-- Section form -->
+        <div id='div_section_form' class="div_structure">
+            <form id="form_logos_form">
+                <h4>1. Choose your logo</h4>
+                {{ form_widget(form.logos) }}
+            </form>
+        </div>
+
+        <div id="div_slider" class="div_structure" style="display: none"></div>
+
+        <div id="div_location" class="div_structure" style="display: none"></div>
+
+        <div id="upload" class="div_structure" style="display: none"></div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var formlogos = $('#form_logos');
+        formlogos.change(function() {
+            var logo_id = $( this ).val();
+
+            // Load image with slider
+            var urlslider = "{{ path('slider',{'logo_id':'logo_id'}) }}";
+            urlslider = urlslider.replace('logo_id', logo_id);
+
+            $.ajax({
+                url: urlslider,
+                type: "POST",
+                success: function (result) {
+                    var slider = $('#div_slider');
+                    slider.show();
+                    slider.html(result['html']);
+                }
+            });
+
+            // Load position
+            var urlposition = "{{ path('position',{'logo_id':'logo_id'}) }}";
+            urlposition = urlposition.replace('logo_id', logo_id);
+
+            $.ajax({
+                url: urlposition,
+                type: "POST",
+                success: function (result) {
+                    var position = $('#div_location');
+                    position.show();
+                    position.html(result['html']);
+                }
+            });
+        });
+    </script>
 {% endblock %}

@@ -39,6 +39,15 @@ class Section extends BaseSection
      */
     protected $logos;
 
+    /**
+     * How many times the section has download logos
+     *
+     * @var int
+     *
+     * @ORM\Column(name="downloaded", type="integer")
+     */
+    private $downloaded;
+
     public function __construct(){
         $this->users = new ArrayCollection();
         $this->logos = new ArrayCollection();
@@ -63,11 +72,26 @@ class Section extends BaseSection
     }
 
     /**
-     * @param ArrayCollection $logos
+     * @param Logo $logo
+     *
+     * @return $this
      */
-    public function setLogos($logos)
+    public function addLogo(Logo $logo)
     {
-        $this->logos = $logos;
+        $this->logos->add($logo);
+
+        return $this;
+    }
+
+    /**
+     * @param Logo $logo
+     *
+     * @return $this
+     */
+    public function removeLogo(Logo $logo){
+        $this->logos->removeElement($logo);
+
+        return $this;
     }
 
     /**
@@ -111,6 +135,22 @@ class Section extends BaseSection
         }
 
         return false;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloaded()
+    {
+        return $this->downloaded;
+    }
+
+    /**
+     * @param int $downloaded
+     */
+    public function setDownloaded($downloaded)
+    {
+        $this->downloaded = $downloaded;
     }
 }
 

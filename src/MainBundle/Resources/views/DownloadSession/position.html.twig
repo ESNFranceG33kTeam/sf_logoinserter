@@ -1,0 +1,42 @@
+<h4>3. Location for your logo</h4>
+
+<table border="0" id="table_form">
+    <tbody><tr>
+        <td>Top Left</td>
+        <td><input type="radio" name="location" value="tl"></td>
+        <td><input type="radio" name="location" value="tr"></td>
+        <td>Top Right</td>
+    </tr>
+    <tr>
+        <td>Bottom Left</td>
+        <td><input type="radio" name="location" value="bl"></td>
+        <td><input type="radio" name="location" value="br"></td>
+        <td>Bottom Right</td>
+    </tr>
+    </tbody>
+</table>
+
+<script>
+    $("input[name='location']").change(function(){
+
+        var logo_id  = $('#form_logos').val();
+        var position = $(this).val();
+        var width    = $('#defaultslide').slider("option", "value");
+
+        // Load uploadbox
+        var urluploadbox = "{{ path('uploadbox',{'logo_id':'logo_id', 'width' : 'width_to_replace', 'position' : 'position_to_replace'}) }}";
+        urluploadbox = urluploadbox.replace('logo_id', logo_id);
+        urluploadbox = urluploadbox.replace('width_to_replace', width);
+        urluploadbox = urluploadbox.replace('position_to_replace', position);
+
+        $.ajax({
+            url: urluploadbox,
+            type: "POST",
+            success: function (result) {
+                var uploadbox = $('#upload');
+                uploadbox.show();
+                uploadbox.html(result['html']);
+            }
+        });
+    });
+</script>

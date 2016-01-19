@@ -1,11 +1,21 @@
 {% extends '::base.html.twig' %}
 
 {% block stylesheets %}
-    <link href="{{ asset('bundles/framework/css/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/main/css/style.css') }}" rel="stylesheet" />
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" >
+    {% block style %}{% endblock %}
 {% endblock %}
 
 {% block body %}
+    <div id="header"></div>
+
+    <div id="youtube">
+        <a href="https://www.youtube.com/watch?v=K4oIswGhBco#t=2m38s" target="_blank"><img src="{{ asset('/bundles/main/images/watch_the_presentation2.png') }}" title="Watch the presentation"></a>
+    </div>
+
+    <div id="Statistiques">
+        {{ render(controller('MainBundle:Section:statistique')) }}
+    </div>
     {% block content %}{% endblock %}
 {% endblock %}
 

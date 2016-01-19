@@ -1,0 +1,29 @@
+<h4>2. Adjust width : <span id="currentval">{{ logo.getWidth() }}px</span></h4>
+
+<div id="defaultslide" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false"><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 66.6667%;"></a></div>
+
+<div id="div_logo">
+    <div id="div_logo_display">
+        <img id="img_logo" src="{{ asset(logo.getWebPath()) }}">
+    </div>
+</div>
+
+<script>
+    $('#defaultslide').slider({
+        max: 400,
+        min: 100,
+        value: 300,
+        slide: function (e, ui) {
+            $('#currentval').html(ui.value + "px");
+            src = $("#img_logo").attr('src');
+            width = ui.value + "px";
+            html_img_logo = "<img id='img_logo' src='" + src + "' width='" + width + "'>";
+            $("#div_logo_display").empty();
+            $("#div_logo_display").html(html_img_logo);
+            $("#width_container").empty();
+            $("#width_container").html('<input type="hidden" id="logo_width" name="width" value="' + ui.value + '">');
+            console.log("width changed to " + width + "px");
+        }
+
+    });
+</script>

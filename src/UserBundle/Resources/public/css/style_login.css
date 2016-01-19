@@ -1,0 +1,49 @@
+/******************* LOGIN **************************/
+html, body {
+    height: 100%;
+}
+
+body{
+    text-align:center;
+    vertical-align:middle;
+    background-color:white;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+    background-size: cover; /* version standardisée */
+    font-family: Magda;
+}
+
+.main {
+    height: 100%;
+    width: 100%;
+    display: table;
+}
+
+.login-galaxy {
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+    color: white;
+    margin: auto;
+    font-size:xx-large;
+}
+
+p{
+    color:rgb(122,193,67);
+}
+
+#login-button {
+    background-color: rgb(222,0,126);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+a#login-button{
+    color: white;
+}
+a#login-button:link {
+    text-decoration:none;
+}
+a#login-button:hover{
+    background-color: rgb(122,193,67); /* VERT ESN */
+}

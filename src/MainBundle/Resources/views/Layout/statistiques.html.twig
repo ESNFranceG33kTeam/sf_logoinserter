@@ -1,0 +1,9 @@
+<h2>Statistiques</h2>
+<br>ESN Sections: {{ sections|length }}
+<br>Total pictures: {{ pictures }}
+
+<br><br>
+
+{% for section in sections if section.downloaded > 0%}
+    <span id='1e'>{{ section }} with {{ section.downloaded }} pictures</span><br>
+{% endfor %}

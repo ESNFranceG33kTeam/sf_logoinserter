@@ -10,4 +10,21 @@ namespace MainBundle\Repository;
  */
 class LogoRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTotalDownloaded($builder = false){
+        $querybuilder = $this->createQueryBuilder('l')
+            ->select('SUM(l.downloaded)');
+
+        return $builder ? $querybuilder : $querybuilder->getQuery()->getResult();
+    }
+
+    public function getTop($limit = null, $builder = false){
+        $querybuilder = $this->createQueryBuilder('l')
+            ->orderBy('l.downloaded', 'DESC');
+
+        if ($limit){
+            $querybuilder->setMaxResults($limit);
+        }
+
+        return $builder ? $querybuilder : $querybuilder->getQuery()->getResult();
+    }
 }

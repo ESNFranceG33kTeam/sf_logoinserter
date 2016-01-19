@@ -1,5 +1,47 @@
 {% extends 'MainBundle::layout.html.twig' %}
 
 {% block content %}
-Upload page
+
+<div id="div_form">
+    <!-- Section form -->
+    <div id='div_section_form' class="div_structure">
+        {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+
+            <div class="row collapse">
+                <div class="large-2 columns">
+                    <label class="inline">{{ 'label.form.name'|trans }}</label>
+                </div>
+
+                <div class="large-10 columns">
+                    {{ form_widget(form.name) }}
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <div class="large-2 columns">
+                    <label class="inline">{{ 'label.form.public'|trans }}</label>
+                </div>
+
+                <div class="large-10 columns">
+                    {{ form_widget(form.public) }}
+                </div>
+            </div>
+
+            <div class="row collapse">
+                <div class="large-2 columns">
+                    <label class="inline">{{ 'label.form.file'|trans }}</label>
+                </div>
+
+                <div class="large-10 columns">
+                    {{ form_widget(form.file) }}
+                </div>
+            </div>
+
+            <input type="submit" value="{{ 'label.form.validate'|trans }}">
+        {{ form_end(form) }}
+    </div>
+</div>
+
 {% endblock %}

@@ -10,4 +10,13 @@ namespace MainBundle\Repository;
  */
 class SectionRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getStatistiques($limit = 5, $builder = false)
+    {
+        $querybuilder = $this->createQueryBuilder('s')
+            ->where('s.downloaded > 0')
+            ->setMaxResults($limit);
+
+
+        return $builder ? $querybuilder : $querybuilder->getQuery()->getResult();
+    }
 }
