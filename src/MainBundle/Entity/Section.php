@@ -48,7 +48,11 @@ class Section extends BaseSection
      */
     private $downloaded;
 
+    /**
+     * Constructor
+     */
     public function __construct(){
+        $this->downloaded= 0;
         $this->users = new ArrayCollection();
         $this->logos = new ArrayCollection();
     }
@@ -151,6 +155,18 @@ class Section extends BaseSection
     public function setDownloaded($downloaded)
     {
         $this->downloaded = $downloaded;
+    }
+
+    /**
+     * Increase downloaded
+     *
+     * @return Logo
+     */
+    public function increaseDownloaded()
+    {
+        $this->downloaded = $this->getDownloaded() + 1;
+
+        return $this;
     }
 }
 

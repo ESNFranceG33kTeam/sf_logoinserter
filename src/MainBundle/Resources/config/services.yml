@@ -1,4 +1,7 @@
 services:
-#    main.example:
-#        class: MainBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    pictures.manager:
+        class: MainBundle\Manager\PicturesManager
+        calls:
+            - [ setTranslator, [ @translator ] ]
+            - [ setManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setUser, [@security.token_storage] ]

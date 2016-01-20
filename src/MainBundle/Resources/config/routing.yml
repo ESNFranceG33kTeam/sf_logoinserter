@@ -17,3 +17,11 @@ position:
 uploadbox:
     path:     /upload/uploadbox/logo/{logo_id}/width/{width}/position/{position}
     defaults: { _controller: MainBundle:DownloadSession:uploadbox }
+
+uploadfiles:
+    path:     /upload/upload/logo/{logo_id}/width/{width}/position/{position}
+    defaults: { _controller: MainBundle:DownloadSession:uploadFiles }
+
+zip:
+    path:     /upload/zip
+    defaults: { _controller: MainBundle:DownloadSession:zip }

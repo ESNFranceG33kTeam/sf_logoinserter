@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -80,10 +81,18 @@ class Logo
     private $section;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="DownloadSession", mappedBy="logo")
+     */
+    protected $downloadedSessions;
+
+    /**
      * Constructor
      */
     public function __construct(){
         $this->downloaded= 0;
+        $this->downloadSessions = new ArrayCollection();
         $this->createdAt = new \DateTime("now");
         $this->updatedAt = new \DateTime("now");
     }
@@ -348,6 +357,37 @@ class Logo
 
     public function getHeight(){
         return $this->getSize()[1];
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getDownloadedSessions(){
+        return $this->downloadSessions;
+    }
+
+    /**
+     * @param DownloadSession $downloadSession
+     *
+     * @return $this
+     */
+    public function addDownloadedSession(DownloadSession $downloadSession){
+        $this->downloadSessions->add($downloadSession);
+
+        $downloadSession->setLogo($this);
+
+        return $this;
+    }
+
+    /**
+     * @param DownloadSession $downloadSession
+     *
+     * @return $this
+     */
+    public function removeDownloadedSession(DownloadSession $downloadSession){
+        $this->downloadSessions->removeElement($downloadSession);
+
+        return $this;
     }
 
     public function __toString(){

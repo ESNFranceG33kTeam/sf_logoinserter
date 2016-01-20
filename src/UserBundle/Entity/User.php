@@ -72,7 +72,7 @@ class User extends GalaxyUser
      * @return ArrayCollection
      */
     public function getDownloadedSessions(){
-        return $this->getDownloadedSessions();
+        return $this->downloadSessions();
     }
 
     /**

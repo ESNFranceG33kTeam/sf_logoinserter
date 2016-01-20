@@ -24,6 +24,20 @@ class DownloadSession
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="width", type="integer")
+     */
+    private $width;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="position", type="string", length=255)
+     */
+    private $position;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
@@ -33,9 +47,16 @@ class DownloadSession
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="Logo")
+     * @ORM\OneToMany(targetEntity="Picture", mappedBy="downloadSession")
      */
-    private $logos;
+    private $pictures;
+
+    /**
+     * @var Logo
+     *
+     * @ORM\ManyToOne(targetEntity="Logo", inversedBy="downloadedSessions")
+     */
+    private $logo;
 
     /**
      * @var User
@@ -43,6 +64,10 @@ class DownloadSession
      * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="downloadedSessions")
      */
     private $owner;
+
+    public function __construct(){
+        $this->pictures = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -83,29 +108,31 @@ class DownloadSession
      *
      * @return ArrayCollection
      */
-    public function getLogos()
+    public function getPictures()
     {
-        return $this->logos;
+        return $this->pictures;
     }
 
     /**
-     * @param Logo $logo
+     * @param Picture $picture
      *
      * @return $this
      */
-    public function addLogo(Logo $logo){
-        $this->logos->add($logo);
+    public function addPicture(Picture $picture){
+        $this->pictures->add($picture);
+
+        $picture->setDownloadSession($this);
 
         return $this;
     }
 
     /**
-     * @param Logo $logo
+     * @param Picture $picture
      *
      * @return $this
      */
-    public function removeLogo(Logo $logo){
-        $this->logos->removeElement($logo);
+    public function removePicture(Picture $picture){
+        $this->pictures->removeElement($picture);
 
         return $this;
     }
@@ -124,6 +151,54 @@ class DownloadSession
     public function setOwner($owner)
     {
         $this->owner = $owner;
+    }
+
+    /**
+     * @return Logo
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param Logo $logo
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return int
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * @param int $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param string $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
     }
 }
 
