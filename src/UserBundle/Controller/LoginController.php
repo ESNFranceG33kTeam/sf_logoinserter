@@ -31,7 +31,14 @@ class LoginController extends Controller
         /** @var UserProvider $up */
         $up = new UserProvider($this->container);
 
-        $user_cas = $up->loadGalaxyUser();
+        $connected = @fsockopen("www.galaxy.esn.org", 80);
+
+        if ($connected){
+            $user_cas = $up->loadGalaxyUser();
+            fclose($connected);
+        }else{
+            $user_cas = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
+        }
 
         if ($user_cas != null){
             $user_db = $em->getRepository("UserBundle:User")->findOneBy(array("email" => $user_cas->getEmail()));

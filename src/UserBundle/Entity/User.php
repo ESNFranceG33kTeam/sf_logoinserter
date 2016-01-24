@@ -35,12 +35,22 @@ class User extends GalaxyUser
     protected $downloadedSessions;
 
     /**
+     * How many times the user upload a logo
+     *
+     * @var int
+     *
+     * @ORM\Column(name="downloaded", type="integer")
+     */
+    private $downloaded;
+
+    /**
      * @param $galaxyUsername
      * @param $attributes
      */
     public function __construct($galaxyUsername, $attributes){
         parent::__construct($galaxyUsername, $attributes);
 
+        $this->downloaded = 0;
         $this->downloadSessions = new ArrayCollection();
     }
 
@@ -72,7 +82,7 @@ class User extends GalaxyUser
      * @return ArrayCollection
      */
     public function getDownloadedSessions(){
-        return $this->downloadSessions();
+        return $this->downloadSessions;
     }
 
     /**
@@ -97,5 +107,21 @@ class User extends GalaxyUser
         $this->downloadSessions->removeElement($downloadSession);
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDownloaded()
+    {
+        return $this->downloaded;
+    }
+
+    /**
+     * @param int $downloaded
+     */
+    public function setDownloaded($downloaded)
+    {
+        $this->downloaded = $downloaded;
     }
 }

@@ -106,6 +106,8 @@ class DownloadSessionController extends BaseController
 
         $em = $this->getDoctrine()->getEntityManager();
 
+        $pm = $this->getPicturesManager();
+
         $downloadsession = null;
         $code = "error";
 
@@ -155,9 +157,9 @@ class DownloadSessionController extends BaseController
 
                 if($picture->upload($downloadsession)){
                     //Resize, crop and merge with logo
-                    //$functions->resizeAndCrop();
-                    //$functions->mergeWithLogo();
-                    //$Sections->addNewPicture($_SESSION['logoname']);
+
+                    $pm->resizeAndCrop($picture);
+                    $pm->mergeWithLogo($picture, $downloadsession);
 
                     $code = "success";
                 }
@@ -191,27 +193,40 @@ class DownloadSessionController extends BaseController
         $pm = $this->get('pictures.manager');
 
         $code = "error";
+        $message = "";
 
         if ($request->getSession()->get('downloadSession_id')) {
             $downloadsession = $this->getDoctrine()->getManager()->getRepository('MainBundle:DownloadSession')->find($request->getSession()->get('downloadSession_id'));
         }
 
         if (!$downloadsession){
-            throw $this->createNotFoundException();
+            $code = "error";
+            $message = "createNotFoundException";
+        }else{
+            $request->getSession()->set('downloadSession_id', null);
         }
+
+        $archivepath =  $downloadsession->getPictures()->first()->getUploadDir() . '/' . $downloadsession->getId() . '/archive.zip';
+        $zip = new \ZipArchive();
 
         /** @var Picture $picture */
         foreach($downloadsession->getPictures() as $picture){
-            $this->getSection()->increaseDownloaded();
-            $downloadsession->getLogo()->increaseDownloaded();
 
-            //Resize, crop and merge with logo
-            $pm->resizeAndCrop($picture);
-            $pm->mergeWithLogo($picture, $downloadsession);
+            if($zip->open($archivepath, \ZipArchive::CREATE) === true)
+            {
+                $zip->addFile($picture->getWebPath());
+                $zip->close();
+            }
+        }
+
+        if (is_file($archivepath)){
+            $code = "success";
         }
 
         return new JsonResponse(array(
-            'code' => $code
+            'code' => $code,
+            'message' => $message,
+            'zippath' => '/' . $archivepath
         ));
     }
 }

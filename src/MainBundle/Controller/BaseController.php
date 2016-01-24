@@ -10,12 +10,20 @@ namespace MainBundle\Controller;
 
 
 use MainBundle\Entity\Section;
+use MainBundle\Manager\PicturesManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Translation\Translator;
 use UserBundle\Entity\User;
 
 class BaseController extends Controller
 {
+
+    /**
+     * @return PicturesManager
+     */
+    public function getPicturesManager(){
+        return $this->get('pictures.manager');
+    }
     /**
      * @return Section
      */

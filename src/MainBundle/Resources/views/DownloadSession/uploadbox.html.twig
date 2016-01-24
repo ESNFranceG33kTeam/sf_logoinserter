@@ -15,19 +15,20 @@
             <div class="div_loading" style="display:none;"><img src="{{ asset("bundles/main/images/ajax-loader-bar.gif") }}"></div>
                 <span id="span_info">
                     <h4>5. Wait until all pictures are uploaded and <br>
-                        <a id="zip" href="#">Zip</a></h4>
+                        <a id="zip" href="#">Zip and Download</a></h4>
                 </span>
 
             <br>
 
-            <div id="div_zip"></div>
+            <div id="div_zip" style="display: none;">
+                <h4><a id="zippath" href="" download="Archive.zip">6. Download</a></h4>
+            </div>
         </div>
     </center>
 </form>
 
 <script>
     $('#zip').click(function(){
-        console.log("zip");
         $(this).parent().find('input').click();
 
         var urlzip = "{{ path('zip') }}";
@@ -35,7 +36,16 @@
             url: urlzip,
             type: "POST",
             success: function (result) {
-                console("success zipping");
+                $('.div_loading').hide();
+                $('#div_zip').show();
+
+                var zippath = result['zippath'];
+                var link = $("#zippath");
+
+                if (zippath){
+                    link.attr("href", result['zippath']);
+                    link.click();
+                }
             }
         });
     });
@@ -43,9 +53,6 @@
     var ul = $('#upload ul');
 
     $('#drop a').click(function(){
-        // Simulate a click on the file input button
-        // to show the file browser dialog
-        console.log("ici");
         $(this).parent().find('input').click();
     });
 

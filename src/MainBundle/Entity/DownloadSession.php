@@ -146,7 +146,7 @@ class DownloadSession
     }
 
     /**
-     * @param Section $owner
+     * @param User $owner
      */
     public function setOwner($owner)
     {
