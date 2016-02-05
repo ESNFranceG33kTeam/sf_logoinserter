@@ -4,40 +4,24 @@
 
 <div id="div_form">
     <!-- Section form -->
-    <div id='div_section_form' class="div_structure">
+    <div id='div_upload' class="div_structure form-style-2">
         {{ form_start(form) }}
 
             {{ form_errors(form) }}
 
-            <div class="row collapse">
-                <div class="large-2 columns">
-                    <label class="inline">{{ 'label.form.name'|trans }}</label>
-                </div>
+            <label class="inline"><span>{{ 'label.form.name'|trans }}<span class="required">*</span></span>
+                {{ form_widget(form.name) }}
+            </label>
 
-                <div class="large-10 columns">
-                    {{ form_widget(form.name) }}
-                </div>
-            </div>
+            <label class="inline"><span>{{ 'label.form.public'|trans }}&nbsp;<i class="fa fa-question-circle" title="{{ 'label.info.public'|trans }}"></i></span>
 
-            <div class="row collapse">
-                <div class="large-2 columns">
-                    <label class="inline">{{ 'label.form.public'|trans }}</label>
-                </div>
+                {{ form_widget(form.public) }}
+            </label>
 
-                <div class="large-10 columns">
-                    {{ form_widget(form.public) }}
-                </div>
-            </div>
-
-            <div class="row collapse">
-                <div class="large-2 columns">
-                    <label class="inline">{{ 'label.form.file'|trans }}</label>
-                </div>
-
-                <div class="large-10 columns">
-                    {{ form_widget(form.file) }}
-                </div>
-            </div>
+            <label class="inline"><span>{{ 'label.form.file'|trans }}<span class="required">*</span></span>
+                {{ form_widget(form.file) }}
+            </label>
+            <br>
 
             <input type="submit" value="{{ 'label.form.validate'|trans }}">
         {{ form_end(form) }}

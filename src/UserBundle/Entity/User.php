@@ -124,4 +124,16 @@ class User extends GalaxyUser
     {
         $this->downloaded = $downloaded;
     }
+
+    /**
+     * Increase downloaded
+     *
+     * @return User
+     */
+    public function increaseDownloaded()
+    {
+        $this->downloaded = $this->getDownloaded() + 1;
+
+        return $this;
+    }
 }

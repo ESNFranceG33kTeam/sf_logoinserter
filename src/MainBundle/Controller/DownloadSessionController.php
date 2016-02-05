@@ -211,8 +211,13 @@ class DownloadSessionController extends BaseController
             $archivepath =  $downloadsession->getPictures()->first()->getUploadDir() . '/' . $downloadsession->getId() . '/archive.zip';
             $zip = new \ZipArchive();
 
+            $downloadsession->getLogo()->increaseDownloaded();
+
             /** @var Picture $picture */
             foreach($downloadsession->getPictures() as $picture){
+
+                $this->getSection()->increaseDownloaded();
+                $this->getUser()->increaseDownloaded();
 
                 if($zip->open($archivepath, \ZipArchive::CREATE) === true)
                 {
@@ -225,6 +230,8 @@ class DownloadSessionController extends BaseController
                 $options['code'] = "success";
                 $options['zippath'] = '/' . $archivepath;
             }
+
+            $em->flush();
         }
 
         return new JsonResponse($options);
