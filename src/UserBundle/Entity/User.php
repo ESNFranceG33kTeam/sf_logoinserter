@@ -10,6 +10,7 @@ use MainBundle\Entity\Section;
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
+ * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  */
 class User extends GalaxyUser
 {
@@ -115,6 +116,22 @@ class User extends GalaxyUser
     public function getDownloaded()
     {
         return $this->downloaded;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->firstname . " " . strtoupper($this->lastname);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullnameWithSection()
+    {
+        return $this->getFullname() . " (" . $this->getSection()->getName() . ")";
     }
 
     /**

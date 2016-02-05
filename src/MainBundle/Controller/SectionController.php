@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use phpCAS;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Repository\UserRepository;
 
 class SectionController extends BaseController
 {
@@ -28,9 +29,16 @@ class SectionController extends BaseController
             $totalDownloaded += $logo->getDownloaded();
         }
 
+        /** @var UserRepository $userRepo */
+        $userRepo = $this->getDoctrine()->getManager()->getRepository('UserBundle:User');
+        $users = $userRepo->getActiveUser();
+
+
         return $this->render('MainBundle:Layout:statistiques.html.twig', array(
             "sections" => $sectionRepo->getStatistiques(),
-            "pictures" => $totalDownloaded
+            "pictures" => $totalDownloaded,
+            "activeUsers" => $users,
+            "users" => $userRepo->getStatistiques()
         ));
     }
 }
