@@ -192,41 +192,41 @@ class DownloadSessionController extends BaseController
         /** @var PicturesManager $pm */
         $pm = $this->get('pictures.manager');
 
-        $code = "error";
-        $message = "";
+        $options = array();
+        $options['code'] = "error";
+        $options['message'] = "";
 
         if ($request->getSession()->get('downloadSession_id')) {
             $downloadsession = $this->getDoctrine()->getManager()->getRepository('MainBundle:DownloadSession')->find($request->getSession()->get('downloadSession_id'));
         }
 
         if (!$downloadsession){
-            $code = "error";
-            $message = "createNotFoundException";
+            $options['code'] = "error";
+            $options['message'] = "createNotFoundException";
         }else{
             $request->getSession()->set('downloadSession_id', null);
         }
 
-        $archivepath =  $downloadsession->getPictures()->first()->getUploadDir() . '/' . $downloadsession->getId() . '/archive.zip';
-        $zip = new \ZipArchive();
+        if ($downloadsession){
+            $archivepath =  $downloadsession->getPictures()->first()->getUploadDir() . '/' . $downloadsession->getId() . '/archive.zip';
+            $zip = new \ZipArchive();
 
-        /** @var Picture $picture */
-        foreach($downloadsession->getPictures() as $picture){
+            /** @var Picture $picture */
+            foreach($downloadsession->getPictures() as $picture){
 
-            if($zip->open($archivepath, \ZipArchive::CREATE) === true)
-            {
-                $zip->addFile($picture->getWebPath());
-                $zip->close();
+                if($zip->open($archivepath, \ZipArchive::CREATE) === true)
+                {
+                    $zip->addFile($picture->getWebPath());
+                    $zip->close();
+                }
+            }
+
+            if (is_file($archivepath)){
+                $options['code'] = "success";
+                $options['zippath'] = '/' . $archivepath;
             }
         }
 
-        if (is_file($archivepath)){
-            $code = "success";
-        }
-
-        return new JsonResponse(array(
-            'code' => $code,
-            'message' => $message,
-            'zippath' => '/' . $archivepath
-        ));
+        return new JsonResponse($options);
     }
 }
