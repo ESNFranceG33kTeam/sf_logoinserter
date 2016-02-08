@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Logo
 {
-    public static $AUTHORIZED_MIME_TYPES = array('image/jpeg', 'image/png', 'image/jpg');
+    public static $AUTHORIZED_MIME_TYPES = array('image/png');
 
     /**
      * @var int

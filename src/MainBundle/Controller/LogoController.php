@@ -22,7 +22,7 @@ class LogoController extends BaseController
         $logos = array();
 
         /** @var Logo $logo */
-        foreach($logoRepo->findAll() as $logo){
+        foreach($this->getSection()->getLogos() as $logo){
             if (!in_array($logo->getId(), $logos)) {
                 $logos[$logo->getId()] = $logo->getName();
             }

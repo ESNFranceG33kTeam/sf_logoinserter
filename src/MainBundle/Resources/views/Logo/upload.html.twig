@@ -7,19 +7,20 @@
     <div id='div_upload' class="div_structure form-style-2">
         {{ form_start(form) }}
 
-            {{ form_errors(form) }}
-
             <label class="inline"><span>{{ 'label.form.name'|trans }}<span class="required">*</span></span>
                 {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
             </label>
 
             <label class="inline"><span>{{ 'label.form.public'|trans }}&nbsp;<i class="fa fa-question-circle" title="{{ 'label.info.public'|trans }}"></i></span>
 
                 {{ form_widget(form.public) }}
+                {{ form_errors(form.public) }}
             </label>
 
-            <label class="inline"><span>{{ 'label.form.file'|trans }}<span class="required">*</span></span>
+            <label class="inline"><span>{{ 'label.form.logo'|trans }} (png)<span class="required">*</span></span>
                 {{ form_widget(form.file) }}
+                {{ form_errors(form.file) }}
             </label>
             <br>
 

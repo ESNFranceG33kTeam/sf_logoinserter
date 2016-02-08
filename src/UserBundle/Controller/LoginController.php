@@ -31,13 +31,14 @@ class LoginController extends Controller
         /** @var UserProvider $up */
         $up = new UserProvider($this->container);
 
-        $connected = @fsockopen("www.galaxy.esn.org", 80);
+        //$connected = @fsockopen("www.galaxy.esn.org", 80);
+        $connected = false;
 
         if ($connected){
             $user_cas = $up->loadGalaxyUser();
             fclose($connected);
         }else{
-            $user_cas = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "jeremie.samson@ix.esnlille.fr"));
+            $user_cas = $em->getRepository("UserBundle:User")->findOneBy(array("email" => "claupcsilva@gmail.com"));
         }
 
         if ($user_cas != null){

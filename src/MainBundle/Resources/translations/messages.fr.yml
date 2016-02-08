@@ -1,7 +1,7 @@
 label.error.mimetype: Le format du fichier n'est pas correct
 label.form.name: Nom
 label.form.public: Public
-label.form.file: Fichier
+label.form.logo: Logo
 label.form.validate: Valider
 label.info.public: Le logo que vous uploadé sera accessible par toutes les sections (ex : SocialErasmus, Erasmus in Schools ...)
 label.stats: Statistique
