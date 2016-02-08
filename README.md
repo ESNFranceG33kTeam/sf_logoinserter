@@ -6,12 +6,27 @@
 
 
 ```shell
-git@github.com:ESNFranceG33kTeam/sf_logoinserter.git
+git clone git@github.com:ESNFranceG33kTeam/sf_logoinserter.git
 ```
+or 
+
+```shell
+git clone https://github.com/ESNFranceG33kTeam/sf_logoinserter.git
+```
+
+Installez [composer](https://getcomposer.org) :
+
+```shell
+curl -sS https://getcomposer.org/installer | php
+```
+
+install all vendors
 
 ```shell
 php composer.phar install
 ```
+
+create directories
 
 ```shell
 mkdir -p web/uploads/sections web/uploads/downloadsessions web/uploads/public
@@ -29,8 +44,8 @@ on Linux
 
 ```shell
 HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
-sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs web/uploads
-sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs web/uploads
+sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs web/uploads/sections web/uploads/downloadsessions web/uploads/public
+sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs web/uploads/sections web/uploads/downloadsessions web/uploads/public
 ```
 
 Deploy assets
