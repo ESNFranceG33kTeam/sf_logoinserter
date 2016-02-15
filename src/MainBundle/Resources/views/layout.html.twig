@@ -9,6 +9,13 @@
 {% block body %}
     <div id="header"></div>
 
+    <div id="menu">
+        <a href="{{ path('homepage') }}" {% if app.request.attributes.get('_route') == 'homepage' %}class="active"{% endif %} style="margin-left: 15px;">{{ 'label.menu.index'|trans }}</a> |
+        <a href="{{ path('upload_logo') }}" {% if app.request.attributes.get('_route') == 'upload_logo' %}class="active"{% endif %}>{{ 'label.menu.uploadnewlogo'|trans }}</a>
+
+        <a href="#" style="float: right;margin-right: 15px; position: relative;z-index: 10;">Logout</a>
+    </div>
+
     <div id="youtube">
         <a href="https://www.youtube.com/watch?v=K4oIswGhBco#t=2m38s" target="_blank"><img src="{{ asset('/bundles/main/images/watch_the_presentation2.png') }}" title="Watch the presentation"></a>
     </div>

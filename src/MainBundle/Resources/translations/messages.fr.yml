@@ -3,3 +3,6 @@ label.form.name: Nom
 label.form.public: Public
 label.form.file: Fichier
 label.form.validate: Valider
+label.menu.uploadnewlogo: Ajouter un nouveau logo
+label.menu.logout: Déconnection
+label.menu.index: Ajouter des photos

@@ -158,7 +158,7 @@ h4{
     border-radius: 15px;
     padding: 15px;
     text-align: center;
-    margin: 75px 5% 10px auto;
+    margin: 10px 5% 10px auto;
     min-height: 100px;
 }
 
@@ -366,4 +366,21 @@ footer ul li{
 
 footer ul li:hover{
     background-color: grey;
+}
+
+#menu{
+    background-color: orange;
+    border-radius: 15px;
+    margin: 50px 5% 0px 5%;
+    padding: 5px;
+}
+
+#menu a{
+    color: white;
+    text-decoration: none;
+}
+
+#menu a.active{
+    text-decoration: underline;
+    font-weight: bold;
 }
