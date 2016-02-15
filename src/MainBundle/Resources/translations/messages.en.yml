@@ -1,17 +1,21 @@
 label.error.mimetype: Mime type is not correct
 label.form.name: Name
 label.form.public: Public
-label.form.file: File
-label.form.validate: Validate
-label.menu.uploadnewlogo: Upload new Logo
-label.menu.logout: Logout
-label.menu.index: Upload pictureslabel.form.logo: Logo
+label.form.logo: Logo
 label.form.validate: Validate
 label.info.public: The logo that you will upload will be available for all sections (ex : SocialErasmus, Erasmus in Schools ...)
 label.stats: Statistic
 label.esnsections: ESN Sections
 label.total.pictures: Total Pictures
-label.section.pictures: %section% with %count% picture| %section% with %count% pictures
 label.top: Top
 label.activeuser: Active User
+label.form.validate: Validate
+label.menu.uploadnewlogo: Upload new Logo
+label.menu.logout: Logout
+label.menu.index: Upload pictures
 label.user.pictures: %user% with %count% picture| %user% with %count% pictures
+label.welcome.user: Welcome %user%
+MainLogo: Main Logo
+SocialErasmus Old: Old SocialErasmus Logo
+SocialErasmus Slogan Old: Old SocialErasmus slogan Logo
+Mov in Europe: Mov in Europe Logo

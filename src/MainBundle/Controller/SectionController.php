@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use phpCAS;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Entity\User;
 use UserBundle\Repository\UserRepository;
 
 class SectionController extends BaseController
@@ -19,25 +20,22 @@ class SectionController extends BaseController
         /** @var SectionRepository $sectionRepo */
         $sectionRepo = $this->getDoctrine()->getManager()->getRepository('MainBundle:Section');
 
-        /** @var LogoRepository $logoRepo */
-        $logoRepo = $this->getDoctrine()->getManager()->getRepository('MainBundle:Logo');
-        $logos = $logoRepo->findAll();
-        $totalDownloaded = 0;
-
-        /** @var Logo $logo */
-        foreach($logos as $logo){
-            $totalDownloaded += $logo->getDownloaded();
-        }
-
         /** @var UserRepository $userRepo */
         $userRepo = $this->getDoctrine()->getManager()->getRepository('UserBundle:User');
-        $users = $userRepo->getActiveUser();
+        $activeUsers = $userRepo->getActiveUser();
 
+        $totalDownloaded = 0;
+
+        /** @var User $user */
+        foreach($activeUsers as $user){
+            $totalDownloaded += $user->getDownloaded();
+        }
 
         return $this->render('MainBundle:Layout:statistiques.html.twig', array(
+            "activeSections" => $sectionRepo->getActiveSections(),
             "sections" => $sectionRepo->getStatistiques(),
             "pictures" => $totalDownloaded,
-            "activeUsers" => $users,
+            "activeUsers" => $activeUsers,
             "users" => $userRepo->getStatistiques()
         ));
     }

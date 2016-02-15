@@ -14,7 +14,19 @@ class SectionRepository extends \Doctrine\ORM\EntityRepository
     {
         $querybuilder = $this->createQueryBuilder('s')
             ->where('s.downloaded > 0')
-            ->setMaxResults($limit);
+            ->orderBy('s.downloaded', 'DESC')
+            ->setMaxResults($limit)
+        ;
+
+
+        return $builder ? $querybuilder : $querybuilder->getQuery()->getResult();
+    }
+
+    public function getActiveSections($builder = false)
+    {
+        $querybuilder = $this->createQueryBuilder('s')
+            ->where('s.downloaded > 0')
+        ;
 
 
         return $builder ? $querybuilder : $querybuilder->getQuery()->getResult();

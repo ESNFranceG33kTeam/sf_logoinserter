@@ -13,3 +13,9 @@ label.form.validate: Valider
 label.menu.uploadnewlogo: Ajouter un nouveau logo
 label.menu.logout: Déconnection
 label.menu.index: Ajouter des photos
+label.user.pictures: %user% avec %count% photo| %user% avec %count% photos
+label.welcome.user: Bienvenue %user%
+MainLogo: Logo Principal
+SocialErasmus Old: Ancien logo SocialErasmus
+SocialErasmus Slogan Old: Ancien slogan SocialErasmus
+Mov in Europe: Logo Mov in Europe

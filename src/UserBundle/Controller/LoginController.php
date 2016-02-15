@@ -31,8 +31,8 @@ class LoginController extends Controller
         /** @var UserProvider $up */
         $up = new UserProvider($this->container);
 
-        //$connected = @fsockopen("www.galaxy.esn.org", 80);
-        $connected = false;
+        $connected = @fsockopen("www.galaxy.esn.org", 80);
+        //$connected = false;
 
         if ($connected){
             $user_cas = $up->loadGalaxyUser();

@@ -11,10 +11,10 @@
     <div id="header"></div>
 
     <div id="menu">
-        <a href="{{ path('homepage') }}" {% if app.request.attributes.get('_route') == 'homepage' %}class="active"{% endif %} style="margin-left: 15px;">{{ 'label.menu.index'|trans }}</a> |
+        {{ 'label.welcome.user'|trans({'%user%': app.user.fullname}) }}
+        <a href="{{ path('homepage') }}" {% if app.request.attributes.get('_route') == 'homepage' %}class="active"{% endif %} style="margin-left: 40px;">{{ 'label.menu.index'|trans }}</a> |
         <a href="{{ path('upload_logo') }}" {% if app.request.attributes.get('_route') == 'upload_logo' %}class="active"{% endif %}>{{ 'label.menu.uploadnewlogo'|trans }}</a>
-
-        <a href="#" style="float: right;margin-right: 15px; position: relative;z-index: 10;">Logout</a>
+        <a href="{{ path('logout') }}" style="float: right;margin-right: 15px; position: relative;z-index: 10;">Logout</a>
     </div>
 
     <div id="youtube">
