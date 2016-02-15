@@ -24,7 +24,8 @@
         "esn/esnbundle": "1.0.x-dev",
         "doctrine/doctrine-migrations-bundle": "^1.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "jasig/phpcas": "^1.3"
+        "jasig/phpcas": "^1.3",
+        "bmatzner/fontawesome-bundle": "^4.4"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

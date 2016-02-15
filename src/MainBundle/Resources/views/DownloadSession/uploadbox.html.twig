@@ -19,10 +19,6 @@
                 </span>
 
             <br>
-
-            <div id="div_zip" style="display: none;">
-                <h4><a id="zippath" href="" download="Archive.zip">6. Download</a></h4>
-            </div>
         </div>
     </center>
 </form>
@@ -35,9 +31,16 @@
         $.ajax({
             url: urlzip,
             type: "POST",
+            beforeSend: function(){
+                $('.loader').show()
+            },
+            complete: function(){
+                $('.loader').hide();
+            },
             success: function (result) {
                 $('.div_loading').hide();
-                $('#div_zip').show();
+
+                $('#success').dialog();
 
                 var zippath = result['zippath'];
                 var link = $("#zippath");

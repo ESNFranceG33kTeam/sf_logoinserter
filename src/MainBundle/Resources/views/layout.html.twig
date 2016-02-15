@@ -2,7 +2,8 @@
 
 {% block stylesheets %}
     <link href="{{ asset('bundles/main/css/style.css') }}" rel="stylesheet" />
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" >
+    <link href="{{ asset('bundles/bmatznerfontawesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css"  />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     {% block style %}{% endblock %}
 {% endblock %}
 
@@ -28,8 +29,8 @@
 
 {% block javascripts %}
     <!-- JavaScript Includes -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ asset('bundles/main/js/jquery.knob.js') }}"></script>
 
     <!-- jQuery File Upload Dependencies -->

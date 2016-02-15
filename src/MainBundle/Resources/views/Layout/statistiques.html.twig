@@ -1,9 +1,22 @@
-<h2>Statistiques</h2>
-<br>ESN Sections: {{ sections|length }}
-<br>Total pictures: {{ pictures }}
+<h2>{{ 'label.stats'|trans }}</h2>
+<br>{{ 'label.esnsections'|trans }}: {{ sections|length }}
 
 <br><br>
 
-{% for section in sections if section.downloaded > 0%}
-    <span id='1e'>{{ section }} with {{ section.downloaded }} pictures</span><br>
+<h3>{{ 'label.top'|trans }}</h3>
+{% for section in sections if section.downloaded > 0 %}
+    {{ 'label.section.pictures'|transchoice(section.downloaded, {'%section%': section, '%count%': section.downloaded}, 'messages') }}<br>
 {% endfor %}
+
+<br><hr><br>
+
+{{ 'label.activeuser'|trans }}: {{ activeUsers|length }}
+
+<br><br>
+
+<h3>{{ 'label.top'|trans }}</h3>
+{% for user in users if user.downloaded > 0 %}
+    {{ 'label.user.pictures'|transchoice(user.downloaded, {'%user%': user.getFullnameWithSection, '%count%': user.downloaded}, 'messages') }}<br>
+{% endfor %}
+
+<br>{{ 'label.total.pictures'|trans }}: {{ pictures }}

@@ -166,9 +166,13 @@ class DownloadSessionController extends BaseController
 
                 $em->persist($picture);
 
+                $request->getSession()->set('path', $picture->getUploadDir());
+
                 $downloadsession->addPicture($picture);
 
                 $em->flush();
+
+
             }
         }
 
@@ -187,46 +191,70 @@ class DownloadSessionController extends BaseController
         $em = $this->getDoctrine()->getEntityManager();
 
         /** @var DownloadSession $downloadsession */
-        $downloadsession = null;
+        $downloadsession = $path = $opened = null;
 
         /** @var PicturesManager $pm */
         $pm = $this->get('pictures.manager');
 
-        $code = "error";
-        $message = "";
+        $options = array();
+        $options['code'] = "error";
+        $options['message'] = "";
 
         if ($request->getSession()->get('downloadSession_id')) {
             $downloadsession = $this->getDoctrine()->getManager()->getRepository('MainBundle:DownloadSession')->find($request->getSession()->get('downloadSession_id'));
+        }else{
+            $options['message'] = "no dowloadsession id";
+        }
+
+        if ($request->getSession()->get('path')) {
+            $path = $request->getSession()->get('path');
+        }else{
+            $options['message'] = "no path in session";
         }
 
         if (!$downloadsession){
-            $code = "error";
-            $message = "createNotFoundException";
+            $options['code'] = "error";
+            $options['message'] = "createNotFoundException";
         }else{
             $request->getSession()->set('downloadSession_id', null);
         }
 
-        $archivepath =  $downloadsession->getPictures()->first()->getUploadDir() . '/' . $downloadsession->getId() . '/archive.zip';
-        $zip = new \ZipArchive();
+        if ($downloadsession && $path){
+            $archivepath =  $path . '/' . $downloadsession->getId() . '/archive.zip';
+            $zip = new \ZipArchive();
 
-        /** @var Picture $picture */
-        foreach($downloadsession->getPictures() as $picture){
+            $options['message'] = "archivepath : $archivepath\n";
+            $downloadsession->getLogo()->increaseDownloaded();
 
-            if($zip->open($archivepath, \ZipArchive::CREATE) === true)
-            {
-                $zip->addFile($picture->getWebPath());
-                $zip->close();
+            if ($downloadsession->getPictures()->count() > 0){
+                /** @var Picture $picture */
+                foreach($downloadsession->getPictures() as $picture){
+
+                    $this->getSection()->increaseDownloaded();
+                    $this->getUser()->increaseDownloaded();
+
+                    $opened = $zip->open($archivepath, \ZipArchive::CREATE);
+                    if($opened === true)
+                    {
+                        $zip->addFile($picture->getWebPath());
+                        $options['message'] = "file added\n";
+                        $zip->close();
+                    }
+                }
+            }else{
+                $options['message'] = "no pictures in downoadsession no : " . $downloadsession->getId();
             }
+
+            if (is_file($archivepath)){
+                $options['code'] = "success";
+                $options['zippath'] = '/' . $archivepath;
+            }
+
+            $em->flush();
+        }else{
+            $options['message'] = "dowloadsession or path null";
         }
 
-        if (is_file($archivepath)){
-            $code = "success";
-        }
-
-        return new JsonResponse(array(
-            'code' => $code,
-            'message' => $message,
-            'zippath' => '/' . $archivepath
-        ));
+        return new JsonResponse($options);
     }
 }

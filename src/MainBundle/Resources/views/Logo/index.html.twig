@@ -16,6 +16,16 @@
 
         <div id="upload" class="div_structure" style="display: none"></div>
     </div>
+
+    <div class="loader" style="display: none;">
+        <center>
+            <img class="loading-image" src="{{ asset('bundles/main/images/load.gif') }}" alt="loading..">
+        </center>
+    </div>
+
+    <div id="success" title="Well done !" style="display: none;">
+        <h4><a id="zippath" href="" download="Archive.zip">Last step : Download It :)</a></h4>
+    </div>
 {% endblock %}
 
 {% block javascript %}

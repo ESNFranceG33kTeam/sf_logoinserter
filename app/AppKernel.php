@@ -19,7 +19,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new UserBundle\UserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
-            new Esn\EsnBundle\EsnEsnBundle()
+            new Esn\EsnBundle\EsnEsnBundle(),
+            new Bmatzner\FontAwesomeBundle\BmatznerFontAwesomeBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
