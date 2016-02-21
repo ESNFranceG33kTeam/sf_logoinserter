@@ -14,6 +14,7 @@ label.menu.uploadnewlogo: Upload new Logo
 label.menu.logout: Logout
 label.menu.index: Upload pictures
 label.user.pictures: %user% with %count% picture| %user% with %count% pictures
+label.section.pictures: %section% with %count% picture| %section% with %count% pictures
 label.welcome.user: Welcome %user%
 MainLogo: Main Logo
 SocialErasmus Old: Old SocialErasmus Logo

@@ -14,6 +14,7 @@ label.menu.uploadnewlogo: Ajouter un nouveau logo
 label.menu.logout: Déconnection
 label.menu.index: Ajouter des photos
 label.user.pictures: %user% avec %count% photo| %user% avec %count% photos
+label.section.pictures: %section% avec %count% photo| %section% avec %count% photos
 label.welcome.user: Bienvenue %user%
 MainLogo: Logo Principal
 SocialErasmus Old: Ancien logo SocialErasmus

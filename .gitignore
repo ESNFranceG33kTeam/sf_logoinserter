@@ -1,5 +1,6 @@
 # Mac
 .DS_Store
+/.rsync_cache
 
 # PhpStorm dir
 /.idea/*
