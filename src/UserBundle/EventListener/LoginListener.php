@@ -44,6 +44,7 @@ class LoginListener {
                 && $request->get('_route') != "logout"
                 && $request->get('_route') != "fos_user_security_login"
                 && $request->get('_route') != "index"
+                && $request->get('_route') != "api_logo"
             ){
                 $event->setResponse(new RedirectResponse($this->router->generate('login')));
             }
