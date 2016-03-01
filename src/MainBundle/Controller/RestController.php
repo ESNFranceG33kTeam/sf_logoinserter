@@ -35,8 +35,9 @@ class RestController extends BaseController
 
         $baseurl = "http://logoinserter.esnlille.fr";
 
-        return new JsonResponse(
-            $baseurl . "/" . $logo->getWebPath()
+        return new JsonResponse(array(
+            "url" => $baseurl . "/" . $logo->getWebPath()
+        )
         );
     }
 }
