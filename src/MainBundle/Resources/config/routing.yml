@@ -25,3 +25,7 @@ uploadfiles:
 zip:
     path:     /upload/zip
     defaults: { _controller: MainBundle:DownloadSession:zip }
+
+api_logo:
+    path:     /api/{code_section}
+    defaults: { _controller: MainBundle:Rest:logo }
