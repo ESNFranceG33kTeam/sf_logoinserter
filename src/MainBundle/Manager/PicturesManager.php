@@ -20,7 +20,9 @@ use UserBundle\Entity\User;
 class PicturesManager
 {
     private $marge = 10;
-    private $pourcent_jpg 	= 100;
+    private $pourcent_jpg = 100;
+    const FB_WIDTH = 1080;
+
     /**
      * @var Translator
      */
@@ -40,10 +42,13 @@ class PicturesManager
     public function setUser(TokenStorage $tokenStorage){$this->user = $tokenStorage->getToken()->getUser(); }
     public function setManager(EntityManager $em){$this->em = $em;}
 
-    /*
-	 * Merge a logo with an image
-	 */
-    public function mergeWithLogo(Picture $picture, DownloadSession $downloadSession){
+    /**
+     * Merge a logo with an image
+     *
+     * @param Picture         $picture
+     * @param DownloadSession $downloadSession
+     */
+    public function mergeWithLogo(Picture $picture, $downloadSession){
         $image = $this->createImage($picture);
 
         //$logo  = imagecreatefrompng($this->imagesPath . "/" . $this->logoname);
@@ -92,51 +97,45 @@ class PicturesManager
         $this->saveImage($image, $picture);
     }
 
-    /*
+    /**
      * Resize the picture
+     *
+     * @param Logo    $logo
      */
     public function resizeAndCrop(Picture $picture){
         // Get new sizes
         $image = $this->createImage($picture);
+
         $width = imagesx($image);
         $height= imagesy($image);
 
         //$percent = ($width <= $height) ? ($this->width / $width) : ($this->height / $height);
         if ($width > $height){
-            $percent = ($width > $picture->getWidth()) ? ($picture->getWidth() / $width) : 1;
+            $percent = $width / self::FB_WIDTH;
         }
         else{
-            $percent = ($height > $picture->getHeight()) ? ($picture->getHeight() / $height) : 1;
+            $percent = $height / self::FB_WIDTH;
         }
 
         $percent = round($percent, 4);
-        $newwidth = round($width * $percent);
-        $newheight = round($height * $percent);
+        $percent = ($percent < 1) ? 1 : $percent;
+
+        $newwidth = round($width / $percent);
+        $newheight = round($height / $percent);
 
         // Resize
         $resize = imagecreatetruecolor($newwidth, $newheight);
         imagecopyresampled($resize, $image, 0, 0, 0, 0, $newwidth, $newheight, $width, $height); //Far better quality than the other one
 
-        //Crope
-        /*$center = array(
-            "x"=>($newwidth-$this->width)/2,
-            "y"=>($newheight-$this->height)/2
-        );
-        $center["x"] = ($center["x"] < 0) ? 0 : $center["x"];
-        $center["y"] = ($center["y"] < 0) ? 0 : $center["y"];
-
-        $crope = imagecreatetruecolor($this->width, $this->height);
-        //echo "width:$width, image_width:" . $this->width."<br>";
-        //echo "height:$height, image_height:" . $this->height."<br>";
-        //print_r($center);
-
-        imagecopy($crope, $resize, 0, 0, $center["x"], $center["y"], $this->width, $this->height);*/
-        //imagecopy($crope, $resize, 0, 0, 0,0, $this->width, $this->height);
-
         // Output and free memory
         $this->saveImage($resize, $picture);
     }
 
+    /**
+     * @param DownloadSession $downloadSession
+     *
+     * @return resource
+     */
     public function resizeLogo(DownloadSession $downloadSession){
         // Get new sizes
         $image = $this->createImage($downloadSession->getLogo());
@@ -160,6 +159,8 @@ class PicturesManager
 
         // Output and free memory
         imagepng($resize);
+
+        return $image;
     }
 
     /**

@@ -110,6 +110,7 @@ class DownloadSessionController extends BaseController
 
         $downloadsession = null;
         $code = "error";
+        $message = "";
 
         /** @var Logo $logo */
         $logo = $this->getDoctrine()->getManager()->getRepository('MainBundle:Logo')->find($logo_id);
@@ -137,47 +138,76 @@ class DownloadSessionController extends BaseController
             $request->getSession()->set('downloadSession_id', $downloadsession->getId());
         }
 
-        if(isset($_FILES['upl']) && $_FILES['upl']['error'] == 0){
-            $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
+        if(isset($_FILES['upl'])){
+            if ($_FILES['upl']['error'] == 0) {
+                $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
 
-            if(in_array(strtolower($extension), Picture::$AUTHORIZED_EXTENSION)){
-                $code = "success";
-            }
-
-            //Image is ready to upload
-            if ($code != "error")
-            {
-                $picture = new Picture();
-                $picture->setCreatedAt(new \DateTime("now"));
-                $picture->setName($_FILES['upl']['name']);
-
-                /** @var UploadedFile $file */
-                $file = new UploadedFile($_FILES['upl']['tmp_name'], $_FILES['upl']['name']);
-                $picture->setFile($file);
-
-                if($picture->upload($downloadsession)){
-                    //Resize, crop and merge with logo
-
-                    $pm->resizeAndCrop($picture);
-                    $pm->mergeWithLogo($picture, $downloadsession);
-
+                if (in_array(strtolower($extension), Picture::$AUTHORIZED_EXTENSION)) {
                     $code = "success";
                 }
 
-                $em->persist($picture);
+                //Image is ready to upload
+                if ($code != "error") {
+                    $picture = new Picture();
+                    $picture->setCreatedAt(new \DateTime("now"));
+                    $picture->setName($_FILES['upl']['name']);
 
-                $request->getSession()->set('path', $picture->getUploadDir());
+                    /** @var UploadedFile $file */
+                    $file = new UploadedFile($_FILES['upl']['tmp_name'], $_FILES['upl']['name']);
+                    $picture->setFile($file);
 
-                $downloadsession->addPicture($picture);
+                    if ($picture->upload($downloadsession)) {
+                        //Resize, crop and merge with logo
+                        $pm->resizeAndCrop($picture, $downloadsession->getWidth());
+                        $pm->mergeWithLogo($picture, $downloadsession);
 
-                $em->flush();
+                        $code = "success";
+                    }
 
+                    $em->persist($picture);
+
+                    $request->getSession()->set('path', $picture->getUploadDir());
+
+                    $downloadsession->addPicture($picture);
+
+                    $em->flush();
+                }
+            }else{
+                switch($_FILES['upl']['error']){
+                    case UPLOAD_ERR_INI_SIZE :
+                        $message = "La taille du fichier téléchargé excède la valeur de upload_max_filesize (" .ini_get('upload_max_filesize'). "), configurée dans le php.ini";
+                        break;
+                    case UPLOAD_ERR_FORM_SIZE :
+                        $message = "La taille du fichier téléchargé excède la valeur de MAX_FILE_SIZE (" .ini_get('MAX_FILE_SIZE'). "), qui a été spécifiée dans le formulaire HTML";
+                        break;
+                    case UPLOAD_ERR_PARTIAL :
+                        $message = "Le fichier n'a été que partiellement téléchargé";
+                        break;
+                    case UPLOAD_ERR_NO_FILE :
+                        $message = "Aucun fichier n'a été téléchargé";
+                        break;
+                    case UPLOAD_ERR_NO_TMP_DIR :
+                        $message = "Un dossier temporaire est manquant. Introduit en PHP 5.0.3.";
+                        break;
+                    case UPLOAD_ERR_CANT_WRITE :
+                        $message = "Échec de l'écriture du fichier sur le disque. Introduit en PHP 5.1.0.";
+                        break;
+                    case UPLOAD_ERR_EXTENSION :
+                        $message = "Une extension PHP a arrêté l'envoi de fichier. PHP ne propose aucun moyen de déterminer quelle extension est en cause. L'examen du phpinfo() peut aider. Introduit en PHP 5.2.0.";
+                        break;
+                    default :
+                        $message = "Autre probleme";
+                        break;
+                }
 
             }
+        }else{
+            $message = "No uploaded Files";
         }
 
         return new JsonResponse(array(
-            'code' => $code
+            'code' => $code,
+            'message' => $message
         ));
     }
 
