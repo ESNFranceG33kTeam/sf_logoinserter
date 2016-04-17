@@ -7,7 +7,8 @@ label.info.public: The logo that you will upload will be available for all secti
 label.stats: Statistic
 label.esnsections: ESN Sections
 label.total.pictures: Total Pictures
-label.top: Top
+label.top1: Top (v1)
+label.top2: Top (v2)
 label.activeuser: Active User
 label.form.validate: Validate
 label.menu.uploadnewlogo: Upload new Logo
@@ -20,3 +21,8 @@ MainLogo: Main Logo
 SocialErasmus Old: Old SocialErasmus Logo
 SocialErasmus Slogan Old: Old SocialErasmus slogan Logo
 Mov in Europe: Mov in Europe Logo
+stats:
+    users:
+        all: See all users
+    sections:
+        all: See all sections

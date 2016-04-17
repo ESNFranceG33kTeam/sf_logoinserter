@@ -12,7 +12,6 @@
 	html_img_logo = "<img id='img_logo' src='assets/img/logos/" + src + "' width='" +logow+ "' style='margin-left:" +margin_left+ ";margin-top:" +margin_top+";'>";
     $("#div_logo_display").empty();
     //$("#div_logo_display").html(html_img_logo);
-	console.log(html_img_logo);
 }
 
 /*

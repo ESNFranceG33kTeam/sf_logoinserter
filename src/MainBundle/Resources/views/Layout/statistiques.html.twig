@@ -3,7 +3,7 @@
 
 <br><br>
 
-<h3>{{ 'label.top'|trans }}</h3>
+<h3>{{ 'label.top1'|trans }}</h3>
 {% for section in sections if section.downloaded > 0 %}
     {{ 'label.section.pictures'|transchoice(section.downloaded, {'%section%': section, '%count%': section.downloaded}, 'messages') }}<br>
 {% endfor %}
@@ -14,7 +14,7 @@
 
 <br><br>
 
-<h3>{{ 'label.top'|trans }}</h3>
+<h3>{{ 'label.top2'|trans }}</h3>
 {% for user in users if user.downloaded > 0 %}
     {{ 'label.user.pictures'|transchoice(user.downloaded, {'%user%': user.getFullnameWithSection, '%count%': user.downloaded}, 'messages') }}<br>
 {% endfor %}

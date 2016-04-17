@@ -16,6 +16,7 @@ class UserRepository extends EntityRepository
     {
         $querybuilder = $this->createQueryBuilder('u')
             ->where('u.downloaded > 0')
+            ->orderBy('u.downloaded', 'DESC')
             ->setMaxResults($limit);
 
         return $builder ? $querybuilder : $querybuilder->getQuery()->getResult();

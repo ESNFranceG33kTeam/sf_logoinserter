@@ -50,15 +50,14 @@ class PicturesManager
      */
     public function mergeWithLogo(Picture $picture, $downloadSession){
         $image = $this->createImage($picture);
+        $logo = null;
 
         //$logo  = imagecreatefrompng($this->imagesPath . "/" . $this->logoname);
         if ($downloadSession->getWidth()){
-            $this->resizeLogo($downloadSession);
+            $logo = $this->resizeLogo($downloadSession);
         }
 
-        $filepath = $downloadSession->getLogo()->getWebPath();
-
-        $logo = imagecreatefrompng($filepath);
+        $logo = ($logo) ? $logo : imagecreatefrompng($downloadSession->getLogo()->getWebPath());
 
         $logo_x = imagesx($logo);
         $logo_y = imagesy($logo);
@@ -87,10 +86,6 @@ class PicturesManager
                 $dest_y = ($image_y - $logo_y) - $this->marge;
                 break;
         }
-
-        //Width : 300 pour 1080
-        //Height: 97 pour 729
-        //debug("dest_x:$dest_x, dest_y:$dest_y, logo_x:$logo_x, logo_y=$logo_y");
 
         imagecopy($image, $logo, $dest_x, $dest_y, 0, 0, $logo_x, $logo_y);
 
@@ -137,8 +132,10 @@ class PicturesManager
      * @return resource
      */
     public function resizeLogo(DownloadSession $downloadSession){
+        $suffix = "x" . $downloadSession->getWidth();
+
         // Get new sizes
-        $image = $this->createImage($downloadSession->getLogo());
+        $image = $this->createImage($downloadSession->getLogo(), $suffix);
 
         $width = imagesx($image);
         $height= imagesy($image);
@@ -157,22 +154,34 @@ class PicturesManager
         imagefilledrectangle($resize, 0, 0, $newwidth, $newheight, $transparent);
         imagecopyresampled($resize, $image, 0, 0, 0, 0, $newwidth, $newheight, $width, $height); //Far better quality than the other one
 
-        // Output and free memory
-        imagepng($resize);
+        $logopath = $this->renameWithSuffix($downloadSession->getLogo()->getWebPath(), $suffix);
 
-        return $image;
+        // Output and free memory
+        imagepng($resize, $logopath);
+
+        return $resize;
     }
 
     /**
      * Create an image based on its extension
      *
      * @param Picture|Logo $picture
+     * @param $suffix string in case it's a logo resizing
      *
      * @return resource
      */
-    public function createImage($picture){
+    public function createImage($picture, $suffix = null){
         //JPG is the only extension from facebook, gif, jpeg and png are only from uploaded file
         $filepath = $picture->getWebPath();
+
+        if ($suffix) {
+            $dest = $this->renameWithSuffix($filepath, $suffix);
+
+            if (!file_exists($dest))
+                copy($filepath, $dest);
+
+            $filepath = $dest;
+        }
 
         switch(pathinfo($filepath, PATHINFO_EXTENSION)){
             case 'jpg':
@@ -218,5 +227,9 @@ class PicturesManager
         }
 
         imagedestroy($src);
+    }
+
+    private function renameWithSuffix($filepath, $suffix) {
+        return str_replace('.' . substr(strrchr($filepath,'.'),1), '', $filepath) . '_' . $suffix . '.' . substr(strrchr($filepath,'.'),1);
     }
 }

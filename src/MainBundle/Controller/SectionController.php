@@ -15,6 +15,31 @@ use UserBundle\Repository\UserRepository;
 
 class SectionController extends BaseController
 {
+    public function getSectionsStatsAction()
+    {
+        /** @var SectionRepository $sectionRepo */
+        $sectionRepo = $this->getDoctrine()->getManager()->getRepository('MainBundle:Section');
+
+        /** @var UserRepository $userRepo */
+        $userRepo = $this->getDoctrine()->getManager()->getRepository('UserBundle:User');
+        $activeUsers = $userRepo->getActiveUser();
+
+        $totalDownloaded = 0;
+
+        /** @var User $user */
+        foreach($activeUsers as $user){
+            $totalDownloaded += $user->getDownloaded();
+        }
+
+        return $this->render('MainBundle:Layout:statistiques.html.twig', array(
+            "activeSections" => $sectionRepo->getActiveSections(),
+            "sections" => $sectionRepo->getStatistiques(),
+            "pictures" => $totalDownloaded,
+            "activeUsers" => $activeUsers,
+            "users" => $userRepo->getStatistiques()
+        ));
+    }
+
     public function statistiqueAction()
     {
         /** @var SectionRepository $sectionRepo */

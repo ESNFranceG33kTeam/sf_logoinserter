@@ -266,7 +266,10 @@ class DownloadSessionController extends BaseController
                     $opened = $zip->open($archivepath, \ZipArchive::CREATE);
                     if($opened === true)
                     {
-                        $zip->addFile($picture->getWebPath());
+                        $filepath = $picture->getWebPath();
+                        $new_filepath = substr($filepath,strrpos($filepath,'/') + 1);
+
+                        $zip->addFile($picture->getWebPath(), $new_filepath);
                         $options['message'] = "file added\n";
                         $zip->close();
                     }

@@ -230,5 +230,9 @@ class Picture
     public function getHeight(){
         return $this->getSize()[1];
     }
+
+    function getExtension() {
+        return substr(strrchr($this->getWebPath(),'.'),1);
+    }
 }
 

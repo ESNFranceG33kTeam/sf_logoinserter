@@ -390,6 +390,10 @@ class Logo
         return $this;
     }
 
+    function getExtension() {
+        return substr(strrchr($this->getWebPath(),'.'),1);
+    }
+
     public function __toString(){
         return $this->getName();
     }
