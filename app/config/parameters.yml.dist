@@ -19,6 +19,6 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     # ESNBundle
-    cas_host:
-    cas_port:
-    cas_context:
+    cas_host: accounts.esn.org
+    cas_port: 443
+    cas_context: cas
